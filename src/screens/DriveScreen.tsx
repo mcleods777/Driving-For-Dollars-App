@@ -23,6 +23,7 @@ import { DrivingSession, Coordinate, PropertyLead } from '../types';
 import { formatDistance, formatDuration, generateId } from '../utils/geo';
 import { createLead, getAllLeads } from '../services/database';
 import FlagPropertyModal from '../components/FlagPropertyModal';
+import { Colors, darkMapStyle } from '../theme';
 
 export default function DriveScreen() {
   const mapRef = useRef<MapView>(null);
@@ -152,8 +153,8 @@ export default function DriveScreen() {
     ? {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005,
       }
     : {
         latitude: 39.8283,
@@ -177,11 +178,12 @@ export default function DriveScreen() {
         showsMyLocationButton={false}
         onPanDrag={() => setFollowUser(false)}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
+        customMapStyle={darkMapStyle}
       >
         {routeCoords.length > 1 && (
           <Polyline
             coordinates={routeCoords}
-            strokeColor="#4A90D9"
+            strokeColor={Colors.primary}
             strokeWidth={5}
           />
         )}
@@ -192,7 +194,7 @@ export default function DriveScreen() {
             coordinate={{ latitude: lead.latitude, longitude: lead.longitude }}
             title={lead.address || 'Flagged Property'}
             description={lead.notes || undefined}
-            pinColor="#FF6B6B"
+            pinColor={Colors.flagRed}
           />
         ))}
       </MapView>
@@ -294,7 +296,7 @@ const styles = StyleSheet.create({
     top: 60,
     left: 16,
     right: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: Colors.overlayBg,
     borderRadius: 12,
     flexDirection: 'row',
     paddingVertical: 12,
@@ -306,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statLabel: {
-    color: '#aaa',
+    color: Colors.textMuted,
     fontSize: 12,
     fontWeight: '500',
   },
@@ -319,7 +321,7 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 1,
     height: 30,
-    backgroundColor: '#444',
+    backgroundColor: Colors.borderLight,
   },
   controls: {
     position: 'absolute',
@@ -330,7 +332,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   recenterButton: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: Colors.overlayBg,
     width: 48,
     height: 48,
     borderRadius: 24,
@@ -340,7 +342,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   flagButton: {
-    backgroundColor: '#FF6B6B',
+    backgroundColor: Colors.flagRed,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -376,10 +378,10 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   startButton: {
-    backgroundColor: '#4A90D9',
+    backgroundColor: Colors.primary,
   },
   stopButton: {
-    backgroundColor: '#E53935',
+    backgroundColor: Colors.danger,
   },
   mainButtonText: {
     color: '#fff',

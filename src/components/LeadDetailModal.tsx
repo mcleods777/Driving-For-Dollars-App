@@ -18,6 +18,7 @@ import {
   LEAD_STATUS_LABELS,
 } from '../types';
 import { formatDateTime } from '../utils/geo';
+import { Colors } from '../theme';
 
 interface LeadDetailModalProps {
   lead: PropertyLead;
@@ -69,11 +70,11 @@ export default function LeadDetailModal({
             <View style={styles.headerActions}>
               {!isEditing && (
                 <TouchableOpacity onPress={() => setIsEditing(true)}>
-                  <Ionicons name="pencil" size={22} color="#4A90D9" />
+                  <Ionicons name="pencil" size={22} color={Colors.primary} />
                 </TouchableOpacity>
               )}
               <TouchableOpacity onPress={onClose}>
-                <Ionicons name="close" size={28} color="#666" />
+                <Ionicons name="close" size={28} color={Colors.textSecondary} />
               </TouchableOpacity>
             </View>
           </View>
@@ -92,7 +93,7 @@ export default function LeadDetailModal({
                 value={address}
                 onChangeText={setAddress}
                 placeholder="Enter address"
-                placeholderTextColor="#999"
+                placeholderTextColor={Colors.textSubtle}
               />
             ) : (
               <Text style={styles.value}>{lead.address || 'No address'}</Text>
@@ -154,7 +155,7 @@ export default function LeadDetailModal({
                 value={notes}
                 onChangeText={setNotes}
                 placeholder="Add notes..."
-                placeholderTextColor="#999"
+                placeholderTextColor={Colors.textSubtle}
                 multiline
                 textAlignVertical="top"
               />
@@ -197,7 +198,7 @@ export default function LeadDetailModal({
               </>
             ) : (
               <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-                <Ionicons name="trash-outline" size={18} color="#E53935" />
+                <Ionicons name="trash-outline" size={18} color={Colors.danger} />
                 <Text style={styles.deleteButtonText}>Delete Lead</Text>
               </TouchableOpacity>
             )}
@@ -211,11 +212,11 @@ export default function LeadDetailModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'flex-end',
   },
   content: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '90%',
@@ -228,12 +229,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.border,
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   headerActions: {
     flexDirection: 'row',
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#888',
+    color: Colors.textMuted,
     marginTop: 16,
     marginBottom: 6,
     textTransform: 'uppercase',
@@ -260,22 +261,22 @@ const styles = StyleSheet.create({
   },
   value: {
     fontSize: 15,
-    color: '#333',
+    color: Colors.textPrimary,
     lineHeight: 22,
   },
   metaValue: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.textSecondary,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.inputBorder,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 10,
     fontSize: 15,
-    color: '#333',
-    backgroundColor: '#fafafa',
+    color: Colors.textPrimary,
+    backgroundColor: Colors.inputBg,
   },
   notesInput: {
     minHeight: 80,
@@ -300,14 +301,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tag: {
-    backgroundColor: '#f0f4f8',
+    backgroundColor: Colors.tagBg,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   tagText: {
     fontSize: 12,
-    color: '#4A90D9',
+    color: Colors.primary,
     fontWeight: '500',
   },
   actions: {
@@ -316,11 +317,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     gap: 12,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: Colors.border,
   },
   saveButton: {
     flex: 1,
-    backgroundColor: '#4A90D9',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
@@ -332,19 +333,19 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.surfaceHighlight,
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: '#666',
+    color: Colors.textSecondary,
     fontSize: 15,
     fontWeight: '600',
   },
   deleteButton: {
     flex: 1,
-    backgroundColor: '#FFF5F5',
+    backgroundColor: '#2A1515',
     borderRadius: 12,
     paddingVertical: 14,
     flexDirection: 'row',
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   deleteButtonText: {
-    color: '#E53935',
+    color: Colors.danger,
     fontSize: 15,
     fontWeight: '600',
   },

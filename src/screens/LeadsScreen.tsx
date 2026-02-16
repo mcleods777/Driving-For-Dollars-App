@@ -20,6 +20,7 @@ import {
 import { getAllLeads, updateLead, deleteLead } from '../services/database';
 import { formatDateTime } from '../utils/geo';
 import LeadDetailModal from '../components/LeadDetailModal';
+import { Colors } from '../theme';
 
 const STATUS_FILTERS: (PropertyLead['status'] | 'all')[] = [
   'all',
@@ -95,7 +96,7 @@ export default function LeadsScreen() {
             <Image source={{ uri: item.photoUri }} style={styles.leadPhoto} />
           ) : (
             <View style={styles.leadPhotoPlaceholder}>
-              <Ionicons name="home-outline" size={24} color="#ccc" />
+              <Ionicons name="home-outline" size={24} color={Colors.textSubtle} />
             </View>
           )}
           <View style={styles.leadText}>
@@ -111,7 +112,7 @@ export default function LeadsScreen() {
           onPress={() => handleDeleteLead(item)}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
-          <Ionicons name="trash-outline" size={18} color="#ccc" />
+          <Ionicons name="trash-outline" size={18} color={Colors.textSubtle} />
         </TouchableOpacity>
       </View>
 
@@ -164,17 +165,17 @@ export default function LeadsScreen() {
     <View style={styles.container}>
       {/* Search */}
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={18} color="#999" style={styles.searchIcon} />
+        <Ionicons name="search" size={18} color={Colors.textSubtle} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search leads..."
-          placeholderTextColor="#999"
+          placeholderTextColor={Colors.textSubtle}
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
         {searchQuery !== '' && (
           <TouchableOpacity onPress={() => setSearchQuery('')}>
-            <Ionicons name="close-circle" size={18} color="#999" />
+            <Ionicons name="close-circle" size={18} color={Colors.textSubtle} />
           </TouchableOpacity>
         )}
       </View>
@@ -224,11 +225,15 @@ export default function LeadsScreen() {
         renderItem={renderLead}
         contentContainerStyle={styles.list}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={Colors.textMuted}
+          />
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Ionicons name="flag-outline" size={64} color="#ccc" />
+            <Ionicons name="flag-outline" size={64} color={Colors.textSubtle} />
             <Text style={styles.emptyText}>No leads found</Text>
             <Text style={styles.emptySubtext}>
               Flag properties while driving to add them as leads
@@ -256,12 +261,12 @@ export default function LeadsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     marginHorizontal: 16,
     marginTop: 12,
     borderRadius: 10,
@@ -269,7 +274,7 @@ const styles = StyleSheet.create({
     height: 44,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 1,
   },
@@ -279,7 +284,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 15,
-    color: '#333',
+    color: Colors.textPrimary,
   },
   filtersContainer: {
     marginTop: 12,
@@ -291,22 +296,22 @@ const styles = StyleSheet.create({
   filterChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 8,
     gap: 6,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: Colors.border,
   },
   filterChipActive: {
-    backgroundColor: '#4A90D9',
-    borderColor: '#4A90D9',
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
   },
   filterChipText: {
     fontSize: 13,
     fontWeight: '500',
-    color: '#666',
+    color: Colors.textSecondary,
   },
   filterChipTextActive: {
     color: '#fff',
@@ -314,15 +319,15 @@ const styles = StyleSheet.create({
   filterCount: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#999',
-    backgroundColor: '#f0f0f0',
+    color: Colors.textMuted,
+    backgroundColor: Colors.surfaceHighlight,
     borderRadius: 10,
     paddingHorizontal: 6,
     paddingVertical: 1,
     overflow: 'hidden',
   },
   filterCountActive: {
-    color: '#4A90D9',
+    color: Colors.primary,
     backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   list: {
@@ -330,13 +335,13 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   leadCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     padding: 14,
     marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
@@ -360,7 +365,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.surfaceHighlight,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -370,11 +375,11 @@ const styles = StyleSheet.create({
   leadAddress: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   leadDate: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.textMuted,
     marginTop: 2,
   },
   tagsRow: {
@@ -384,25 +389,25 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   tag: {
-    backgroundColor: '#f0f4f8',
+    backgroundColor: Colors.tagBg,
     borderRadius: 6,
     paddingHorizontal: 8,
     paddingVertical: 3,
   },
   tagText: {
     fontSize: 11,
-    color: '#4A90D9',
+    color: Colors.primary,
     fontWeight: '500',
   },
   moreTagsText: {
     fontSize: 11,
-    color: '#999',
+    color: Colors.textMuted,
     alignSelf: 'center',
     marginLeft: 2,
   },
   notesPreview: {
     fontSize: 13,
-    color: '#777',
+    color: Colors.textSecondary,
     marginTop: 8,
     lineHeight: 18,
   },
@@ -434,12 +439,12 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#999',
+    color: Colors.textSubtle,
     marginTop: 16,
   },
   emptySubtext: {
     fontSize: 14,
-    color: '#bbb',
+    color: Colors.textSubtle,
     marginTop: 8,
     textAlign: 'center',
     paddingHorizontal: 40,

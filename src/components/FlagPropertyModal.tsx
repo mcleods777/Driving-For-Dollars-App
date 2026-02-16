@@ -15,6 +15,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { PropertyLead } from '../types';
+import { Colors } from '../theme';
 
 const COMMON_TAGS = [
   'Vacant',
@@ -114,7 +115,7 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Flag Property</Text>
             <TouchableOpacity onPress={handleClose}>
-              <Ionicons name="close" size={28} color="#666" />
+              <Ionicons name="close" size={28} color={Colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -126,18 +127,18 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
               value={address}
               onChangeText={setAddress}
               placeholder="123 Main St"
-              placeholderTextColor="#999"
+              placeholderTextColor={Colors.textSubtle}
             />
 
             {/* Photo */}
             <Text style={styles.label}>Photo</Text>
             <View style={styles.photoRow}>
               <TouchableOpacity style={styles.photoButton} onPress={handleTakePhoto}>
-                <Ionicons name="camera" size={24} color="#4A90D9" />
+                <Ionicons name="camera" size={24} color={Colors.primary} />
                 <Text style={styles.photoButtonText}>Camera</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.photoButton} onPress={handlePickPhoto}>
-                <Ionicons name="images" size={24} color="#4A90D9" />
+                <Ionicons name="images" size={24} color={Colors.primary} />
                 <Text style={styles.photoButtonText}>Gallery</Text>
               </TouchableOpacity>
             </View>
@@ -148,7 +149,7 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
                   style={styles.removePhoto}
                   onPress={() => setPhotoUri(null)}
                 >
-                  <Ionicons name="close-circle" size={24} color="#E53935" />
+                  <Ionicons name="close-circle" size={24} color={Colors.danger} />
                 </TouchableOpacity>
               </View>
             )}
@@ -184,7 +185,7 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
               value={notes}
               onChangeText={setNotes}
               placeholder="Add any details about the property..."
-              placeholderTextColor="#999"
+              placeholderTextColor={Colors.textSubtle}
               multiline
               textAlignVertical="top"
             />
@@ -205,11 +206,11 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: '85%',
@@ -223,12 +224,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.border,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   form: {
     paddingHorizontal: 20,
@@ -237,19 +238,19 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#555',
+    color: Colors.textSecondary,
     marginBottom: 8,
     marginTop: 16,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.inputBorder,
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 16,
-    color: '#333',
-    backgroundColor: '#fafafa',
+    color: Colors.textPrimary,
+    backgroundColor: Colors.inputBg,
   },
   notesInput: {
     minHeight: 80,
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
   photoButton: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#4A90D9',
+    borderColor: Colors.primary,
     borderRadius: 10,
     paddingVertical: 12,
     alignItems: 'center',
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   photoButtonText: {
-    color: '#4A90D9',
+    color: Colors.primary,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -297,26 +298,26 @@ const styles = StyleSheet.create({
   },
   tag: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: Colors.inputBorder,
     borderRadius: 20,
     paddingHorizontal: 14,
     paddingVertical: 7,
-    backgroundColor: '#fafafa',
+    backgroundColor: Colors.inputBg,
   },
   tagSelected: {
-    backgroundColor: '#4A90D9',
-    borderColor: '#4A90D9',
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
   },
   tagText: {
     fontSize: 13,
-    color: '#666',
+    color: Colors.textSecondary,
     fontWeight: '500',
   },
   tagTextSelected: {
     color: '#fff',
   },
   saveButton: {
-    backgroundColor: '#4A90D9',
+    backgroundColor: Colors.primary,
     marginHorizontal: 20,
     paddingVertical: 14,
     borderRadius: 12,

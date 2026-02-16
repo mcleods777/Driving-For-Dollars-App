@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { DrivingSession } from '../types';
 import { getAllSessions, deleteSession, getStats } from '../services/database';
 import { formatDistance, formatDuration, formatDateTime } from '../utils/geo';
+import { Colors } from '../theme';
 
 type RootStackParamList = {
   SessionDetail: { sessionId: string };
@@ -74,7 +75,7 @@ export default function SessionsScreen() {
       >
         <View style={styles.sessionHeader}>
           <View style={styles.sessionDate}>
-            <Ionicons name="car" size={20} color="#4A90D9" />
+            <Ionicons name="car" size={20} color={Colors.primary} />
             <Text style={styles.sessionDateText}>
               {formatDateTime(item.startTime)}
             </Text>
@@ -83,7 +84,7 @@ export default function SessionsScreen() {
             onPress={() => handleDeleteSession(item)}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Ionicons name="trash-outline" size={20} color="#ccc" />
+            <Ionicons name="trash-outline" size={20} color={Colors.textSubtle} />
           </TouchableOpacity>
         </View>
         <View style={styles.sessionStats}>
@@ -136,11 +137,15 @@ export default function SessionsScreen() {
         renderItem={renderSession}
         contentContainerStyle={styles.list}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            tintColor={Colors.textMuted}
+          />
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Ionicons name="car-outline" size={64} color="#ccc" />
+            <Ionicons name="car-outline" size={64} color={Colors.textSubtle} />
             <Text style={styles.emptyText}>No driving sessions yet</Text>
             <Text style={styles.emptySubtext}>
               Start a driving session to see your history here
@@ -155,7 +160,7 @@ export default function SessionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
   },
   summaryContainer: {
     flexDirection: 'row',
@@ -165,24 +170,24 @@ const styles = StyleSheet.create({
   },
   summaryCard: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
   summaryValue: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#4A90D9',
+    color: Colors.primary,
   },
   summaryLabel: {
     fontSize: 11,
-    color: '#888',
+    color: Colors.textMuted,
     marginTop: 4,
     fontWeight: '500',
   },
@@ -191,13 +196,13 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   sessionCard: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     padding: 16,
     marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
   sessionDateText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   sessionStats: {
     flexDirection: 'row',
@@ -227,11 +232,11 @@ const styles = StyleSheet.create({
   sessionStatValue: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   sessionStatLabel: {
     fontSize: 11,
-    color: '#888',
+    color: Colors.textMuted,
     marginTop: 2,
   },
   emptyContainer: {
@@ -241,12 +246,12 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#999',
+    color: Colors.textSubtle,
     marginTop: 16,
   },
   emptySubtext: {
     fontSize: 14,
-    color: '#bbb',
+    color: Colors.textSubtle,
     marginTop: 8,
     textAlign: 'center',
     paddingHorizontal: 40,

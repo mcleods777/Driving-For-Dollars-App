@@ -1,10 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Colors } from './src/theme';
 
 import DriveScreen from './src/screens/DriveScreen';
 import SessionsScreen from './src/screens/SessionsScreen';
@@ -16,9 +17,27 @@ import SettingsScreen from './src/screens/SettingsScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const AppDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: Colors.background,
+    card: Colors.surface,
+    text: Colors.textPrimary,
+    border: Colors.border,
+    primary: Colors.primary,
+  },
+};
+
 function SessionsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: Colors.surface },
+        headerTintColor: Colors.textPrimary,
+        headerTitleStyle: { color: Colors.textPrimary },
+      }}
+    >
       <Stack.Screen
         name="SessionsList"
         component={SessionsScreen}
@@ -62,11 +81,11 @@ function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#4A90D9',
-        tabBarInactiveTintColor: '#999',
+        tabBarActiveTintColor: Colors.primary,
+        tabBarInactiveTintColor: Colors.tabBarInactive,
         tabBarStyle: {
-          backgroundColor: '#fff',
-          borderTopColor: '#eee',
+          backgroundColor: Colors.tabBarBg,
+          borderTopColor: Colors.tabBarBorder,
           paddingBottom: 4,
           height: 56,
         },
@@ -74,6 +93,8 @@ function TabNavigator() {
           fontSize: 11,
           fontWeight: '600',
         },
+        headerStyle: { backgroundColor: Colors.surface },
+        headerTintColor: Colors.textPrimary,
       })}
     >
       <Tab.Screen
@@ -108,8 +129,8 @@ function TabNavigator() {
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <StatusBar style="auto" />
+      <NavigationContainer theme={AppDarkTheme}>
+        <StatusBar style="light" />
         <TabNavigator />
       </NavigationContainer>
     </GestureHandlerRootView>

@@ -6,10 +6,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import { DrivingSession } from '../types';
 import { getAllSessions } from '../services/database';
 import { getBoundingRegion, formatDistance } from '../utils/geo';
+import { Colors, darkMapStyle } from '../theme';
 
 // Distinct colors for different sessions
 const SESSION_COLORS = [
-  '#4A90D9',
+  '#5A9FE8',
   '#E53935',
   '#43A047',
   '#FB8C00',
@@ -53,6 +54,7 @@ export default function CoverageScreen() {
         ref={mapRef}
         style={styles.map}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
+        customMapStyle={darkMapStyle}
         onMapReady={fitMap}
         showsUserLocation
       >
@@ -66,7 +68,7 @@ export default function CoverageScreen() {
 
           const color =
             colorMode === 'single'
-              ? '#4A90D9'
+              ? Colors.primary
               : SESSION_COLORS[index % SESSION_COLORS.length];
 
           return (
@@ -104,7 +106,7 @@ export default function CoverageScreen() {
           <Ionicons
             name="color-palette"
             size={22}
-            color={colorMode === 'session' ? '#4A90D9' : '#666'}
+            color={colorMode === 'session' ? Colors.primary : Colors.textSecondary}
           />
           <Text
             style={[
@@ -117,14 +119,14 @@ export default function CoverageScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.controlButton} onPress={fitMap}>
-          <Ionicons name="expand" size={22} color="#666" />
+          <Ionicons name="expand" size={22} color={Colors.textSecondary} />
           <Text style={styles.controlText}>Fit All</Text>
         </TouchableOpacity>
       </View>
 
       {sessions.length === 0 && (
         <View style={styles.emptyOverlay}>
-          <Ionicons name="map-outline" size={64} color="#ccc" />
+          <Ionicons name="map-outline" size={64} color={Colors.textSubtle} />
           <Text style={styles.emptyText}>No coverage data yet</Text>
           <Text style={styles.emptySubtext}>
             Complete driving sessions to see your coverage map
@@ -147,7 +149,7 @@ const styles = StyleSheet.create({
     top: 60,
     left: 16,
     right: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: Colors.overlayBg,
     borderRadius: 12,
     flexDirection: 'row',
     paddingVertical: 12,
@@ -164,14 +166,14 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   statLabel: {
-    color: '#aaa',
+    color: Colors.textMuted,
     fontSize: 11,
     marginTop: 2,
   },
   statDivider: {
     width: 1,
     height: 28,
-    backgroundColor: '#444',
+    backgroundColor: Colors.borderLight,
   },
   controls: {
     position: 'absolute',
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
   },
   controlButton: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 12,
     paddingVertical: 12,
     alignItems: 'center',
@@ -192,33 +194,33 @@ const styles = StyleSheet.create({
     gap: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
   },
   controlText: {
-    color: '#666',
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '600',
   },
   controlTextActive: {
-    color: '#4A90D9',
+    color: Colors.primary,
   },
   emptyOverlay: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: Colors.emptyOverlayBg,
   },
   emptyText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#999',
+    color: Colors.textSubtle,
     marginTop: 16,
   },
   emptySubtext: {
     fontSize: 14,
-    color: '#bbb',
+    color: Colors.textSubtle,
     marginTop: 8,
     textAlign: 'center',
     paddingHorizontal: 40,

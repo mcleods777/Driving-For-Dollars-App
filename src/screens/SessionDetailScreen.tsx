@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DrivingSession, PropertyLead } from '../types';
 import { getSession, getAllLeads } from '../services/database';
 import { formatDistance, formatDuration, formatDateTime, getBoundingRegion } from '../utils/geo';
+import { Colors, darkMapStyle } from '../theme';
 
 type RouteParams = {
   SessionDetail: { sessionId: string };
@@ -62,6 +63,7 @@ export default function SessionDetailScreen() {
         ref={mapRef}
         style={styles.map}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
+        customMapStyle={darkMapStyle}
         initialRegion={
           session.coordinates.length > 0
             ? getBoundingRegion(session.coordinates) || undefined
@@ -71,7 +73,7 @@ export default function SessionDetailScreen() {
         {routeCoords.length > 1 && (
           <Polyline
             coordinates={routeCoords}
-            strokeColor="#4A90D9"
+            strokeColor={Colors.primary}
             strokeWidth={5}
           />
         )}
@@ -100,7 +102,7 @@ export default function SessionDetailScreen() {
             description={lead.notes || undefined}
           >
             <View style={styles.leadMarker}>
-              <Ionicons name="flag" size={20} color="#FF6B6B" />
+              <Ionicons name="flag" size={20} color={Colors.flagRed} />
             </View>
           </Marker>
         ))}
@@ -112,24 +114,24 @@ export default function SessionDetailScreen() {
         </Text>
         <View style={styles.statsRow}>
           <View style={styles.stat}>
-            <Ionicons name="speedometer-outline" size={20} color="#4A90D9" />
+            <Ionicons name="speedometer-outline" size={20} color={Colors.primary} />
             <Text style={styles.statValue}>
               {formatDistance(session.distanceMiles)}
             </Text>
             <Text style={styles.statLabel}>Distance</Text>
           </View>
           <View style={styles.stat}>
-            <Ionicons name="time-outline" size={20} color="#4A90D9" />
+            <Ionicons name="time-outline" size={20} color={Colors.primary} />
             <Text style={styles.statValue}>{formatDuration(duration)}</Text>
             <Text style={styles.statLabel}>Duration</Text>
           </View>
           <View style={styles.stat}>
-            <Ionicons name="flag-outline" size={20} color="#4A90D9" />
+            <Ionicons name="flag-outline" size={20} color={Colors.primary} />
             <Text style={styles.statValue}>{leads.length}</Text>
             <Text style={styles.statLabel}>Leads</Text>
           </View>
           <View style={styles.stat}>
-            <Ionicons name="location-outline" size={20} color="#4A90D9" />
+            <Ionicons name="location-outline" size={20} color={Colors.primary} />
             <Text style={styles.statValue}>
               {session.coordinates.length}
             </Text>
@@ -149,36 +151,37 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.background,
   },
   loadingText: {
     fontSize: 16,
-    color: '#999',
+    color: Colors.textMuted,
   },
   map: {
     flex: 1,
   },
   leadMarker: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     borderRadius: 20,
     padding: 4,
     borderWidth: 2,
-    borderColor: '#FF6B6B',
+    borderColor: Colors.flagRed,
   },
   detailsPanel: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
   },
   dateText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.textPrimary,
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -193,10 +196,10 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   statLabel: {
     fontSize: 11,
-    color: '#888',
+    color: Colors.textMuted,
   },
 });

@@ -15,9 +15,10 @@ import * as Sharing from 'expo-sharing';
 import { AppSettings, DEFAULT_SETTINGS } from '../types';
 import { getSettings, saveSetting, exportLeadsAsCSV, getStats } from '../services/database';
 import { formatDistance, formatDuration } from '../utils/geo';
+import { Colors } from '../theme';
 
 const ROUTE_COLORS = [
-  { name: 'Blue', value: '#4A90D9' },
+  { name: 'Blue', value: '#5A9FE8' },
   { name: 'Red', value: '#E53935' },
   { name: 'Green', value: '#43A047' },
   { name: 'Orange', value: '#FB8C00' },
@@ -78,24 +79,24 @@ export default function SettingsScreen() {
         <Text style={styles.sectionTitle}>Your Stats</Text>
         <View style={styles.statsGrid}>
           <View style={styles.statCard}>
-            <Ionicons name="car" size={24} color="#4A90D9" />
+            <Ionicons name="car" size={24} color={Colors.primary} />
             <Text style={styles.statValue}>{stats.totalSessions}</Text>
             <Text style={styles.statLabel}>Sessions</Text>
           </View>
           <View style={styles.statCard}>
-            <Ionicons name="speedometer" size={24} color="#43A047" />
+            <Ionicons name="speedometer" size={24} color={Colors.success} />
             <Text style={styles.statValue}>
               {formatDistance(stats.totalMiles)}
             </Text>
             <Text style={styles.statLabel}>Driven</Text>
           </View>
           <View style={styles.statCard}>
-            <Ionicons name="flag" size={24} color="#FF6B6B" />
+            <Ionicons name="flag" size={24} color={Colors.flagRed} />
             <Text style={styles.statValue}>{stats.totalLeads}</Text>
             <Text style={styles.statLabel}>Leads</Text>
           </View>
           <View style={styles.statCard}>
-            <Ionicons name="time" size={24} color="#FB8C00" />
+            <Ionicons name="time" size={24} color={Colors.warning} />
             <Text style={styles.statValue}>
               {formatDuration(stats.totalDrivingTime)}
             </Text>
@@ -165,7 +166,8 @@ export default function SettingsScreen() {
           <Switch
             value={settings.keepScreenOn}
             onValueChange={(value) => updateSetting('keepScreenOn', value)}
-            trackColor={{ true: '#4A90D9' }}
+            trackColor={{ false: Colors.borderLight, true: Colors.primary }}
+            thumbColor={settings.keepScreenOn ? '#fff' : Colors.textMuted}
           />
         </View>
       </View>
@@ -174,14 +176,14 @@ export default function SettingsScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Data</Text>
         <TouchableOpacity style={styles.actionButton} onPress={handleExportLeads}>
-          <Ionicons name="download-outline" size={22} color="#4A90D9" />
+          <Ionicons name="download-outline" size={22} color={Colors.primary} />
           <View style={styles.actionTextContainer}>
             <Text style={styles.actionLabel}>Export Leads to CSV</Text>
             <Text style={styles.actionDescription}>
               Download all your leads as a spreadsheet
             </Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#ccc" />
+          <Ionicons name="chevron-forward" size={20} color={Colors.textSubtle} />
         </TouchableOpacity>
       </View>
 
@@ -206,13 +208,13 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.background,
   },
   content: {
     paddingBottom: 40,
   },
   section: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
     marginTop: 16,
     paddingHorizontal: 20,
     paddingVertical: 16,
@@ -220,7 +222,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#888',
+    color: Colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     marginBottom: 12,
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
   statCard: {
     flex: 1,
     minWidth: '45%',
-    backgroundColor: '#f8f9fa',
+    backgroundColor: Colors.surfaceLight,
     borderRadius: 12,
     padding: 14,
     alignItems: 'center',
@@ -242,11 +244,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   statLabel: {
     fontSize: 12,
-    color: '#888',
+    color: Colors.textMuted,
   },
   colorRow: {
     flexDirection: 'row',
@@ -261,7 +263,7 @@ const styles = StyleSheet.create({
   },
   colorSelected: {
     borderWidth: 3,
-    borderColor: '#fff',
+    borderColor: Colors.textPrimary,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
@@ -277,15 +279,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.surfaceHighlight,
   },
   optionButtonActive: {
-    backgroundColor: '#4A90D9',
+    backgroundColor: Colors.primary,
   },
   optionText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#666',
+    color: Colors.textSecondary,
   },
   optionTextActive: {
     color: '#fff',
@@ -298,11 +300,11 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   settingDescription: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.textMuted,
     marginTop: 2,
   },
   actionButton: {
@@ -317,11 +319,11 @@ const styles = StyleSheet.create({
   actionLabel: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   actionDescription: {
     fontSize: 12,
-    color: '#999',
+    color: Colors.textMuted,
     marginTop: 2,
   },
   aboutRow: {
@@ -329,15 +331,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: Colors.border,
   },
   aboutLabel: {
     fontSize: 14,
-    color: '#666',
+    color: Colors.textSecondary,
   },
   aboutValue: {
     fontSize: 14,
-    color: '#333',
+    color: Colors.textPrimary,
     fontWeight: '500',
   },
   bottomSpacer: {
