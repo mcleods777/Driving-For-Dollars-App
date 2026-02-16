@@ -1,0 +1,75 @@
+{
+  "expo": {
+    "name": "Driving for Dollars",
+    "slug": "driving-for-dollars",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#4A90D9"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.drivingfordollars.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "We need your location to track your driving routes and map the streets you cover.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Background location is used to continue tracking your route when the app is in the background.",
+        "NSLocationAlwaysUsageDescription": "Background location is used to continue tracking your route when the app is in the background.",
+        "NSCameraUsageDescription": "Camera access is used to take photos of properties you want to flag as leads.",
+        "NSPhotoLibraryUsageDescription": "Photo library access is used to attach existing photos to property leads."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#4A90D9"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.drivingfordollars.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION",
+        "CAMERA"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY_HERE"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Driving for Dollars to use your location to track driving routes.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Driving for Dollars to use your camera to photograph properties."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Driving for Dollars to access your photos to attach to property leads.",
+          "cameraPermission": "Allow Driving for Dollars to use your camera to photograph properties."
+        }
+      ]
+    ]
+  }
+}
