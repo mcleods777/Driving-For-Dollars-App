@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -34,13 +34,22 @@ interface FlagPropertyModalProps {
   visible: boolean;
   onClose: () => void;
   onSave: (lead: Omit<PropertyLead, 'id' | 'createdAt' | 'latitude' | 'longitude' | 'sessionId'>) => void;
+  initialAddress?: string;
+  initialCoords?: { latitude: number; longitude: number };
 }
 
-export default function FlagPropertyModal({ visible, onClose, onSave }: FlagPropertyModalProps) {
+export default function FlagPropertyModal({ visible, onClose, onSave, initialAddress, initialCoords }: FlagPropertyModalProps) {
   const [address, setAddress] = useState('');
   const [notes, setNotes] = useState('');
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Pre-fill address when modal opens with initial data
+  useEffect(() => {
+    if (visible && initialAddress) {
+      setAddress(initialAddress);
+    }
+  }, [visible, initialAddress]);
 
   const resetForm = () => {
     setAddress('');
@@ -120,8 +129,18 @@ export default function FlagPropertyModal({ visible, onClose, onSave }: FlagProp
           </View>
 
           <ScrollView style={styles.form} showsVerticalScrollIndicator={false}>
+            {/* Location info */}
+            {initialCoords && (
+              <View style={styles.locationBanner}>
+                <Ionicons name="location" size={18} color="#FFD600" />
+                <Text style={styles.locationText}>
+                  {initialCoords.latitude.toFixed(6)}, {initialCoords.longitude.toFixed(6)}
+                </Text>
+              </View>
+            )}
+
             {/* Address */}
-            <Text style={styles.label}>Address (optional)</Text>
+            <Text style={styles.label}>Address</Text>
             <TextInput
               style={styles.input}
               value={address}
@@ -234,6 +253,20 @@ const styles = StyleSheet.create({
   form: {
     paddingHorizontal: 20,
     paddingTop: 16,
+  },
+  locationBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: Colors.surfaceHighlight,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  locationText: {
+    fontSize: 13,
+    color: Colors.textMuted,
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
   label: {
     fontSize: 14,

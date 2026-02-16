@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
-import MapView, { Polyline, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
+import MapView, { Polyline, Marker, PROVIDER_GOOGLE, Region, MapPressEvent } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import {
@@ -25,6 +26,12 @@ import { createLead, getAllLeads } from '../services/database';
 import FlagPropertyModal from '../components/FlagPropertyModal';
 import { Colors, darkMapStyle } from '../theme';
 
+interface SelectedLocation {
+  latitude: number;
+  longitude: number;
+  address: string;
+}
+
 export default function DriveScreen() {
   const mapRef = useRef<MapView>(null);
   const [session, setSession] = useState<DrivingSession | null>(null);
@@ -33,6 +40,8 @@ export default function DriveScreen() {
   const [showFlagModal, setShowFlagModal] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [followUser, setFollowUser] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState<SelectedLocation | null>(null);
+  const [isGeocoding, setIsGeocoding] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Initialize
@@ -124,21 +133,81 @@ export default function DriveScreen() {
     ]);
   };
 
+  const handleMapPress = async (event: MapPressEvent) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setFollowUser(false);
+    setIsGeocoding(true);
+    setSelectedLocation({ latitude, longitude, address: '' });
+
+    try {
+      const results = await Location.reverseGeocodeAsync({ latitude, longitude });
+      if (results.length > 0) {
+        const place = results[0];
+        const parts: string[] = [];
+        if (place.streetNumber) parts.push(place.streetNumber);
+        if (place.street) parts.push(place.street);
+        const streetLine = parts.join(' ');
+        const cityLine = [place.city, place.region, place.postalCode].filter(Boolean).join(', ');
+        const fullAddress = [streetLine, cityLine].filter(Boolean).join(', ');
+        setSelectedLocation({ latitude, longitude, address: fullAddress });
+      } else {
+        setSelectedLocation({ latitude, longitude, address: '' });
+      }
+    } catch {
+      setSelectedLocation({ latitude, longitude, address: '' });
+    } finally {
+      setIsGeocoding(false);
+    }
+  };
+
+  const handleFlagSelected = () => {
+    setShowFlagModal(true);
+  };
+
   const handleFlagProperty = () => {
     if (!currentLocation) {
       Alert.alert('Location Unknown', 'Cannot flag property without a current location.');
       return;
     }
-    setShowFlagModal(true);
+    setSelectedLocation({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+      address: '',
+    });
+    setIsGeocoding(true);
+
+    Location.reverseGeocodeAsync({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+    }).then((results) => {
+      if (results.length > 0) {
+        const place = results[0];
+        const parts: string[] = [];
+        if (place.streetNumber) parts.push(place.streetNumber);
+        if (place.street) parts.push(place.street);
+        const streetLine = parts.join(' ');
+        const cityLine = [place.city, place.region, place.postalCode].filter(Boolean).join(', ');
+        const fullAddress = [streetLine, cityLine].filter(Boolean).join(', ');
+        setSelectedLocation({
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+          address: fullAddress,
+        });
+      }
+    }).catch(() => {}).finally(() => {
+      setIsGeocoding(false);
+      setShowFlagModal(true);
+    });
   };
 
   const handleSaveLead = async (lead: Omit<PropertyLead, 'id' | 'createdAt' | 'latitude' | 'longitude' | 'sessionId'>) => {
-    if (!currentLocation) return;
+    const loc = selectedLocation || currentLocation;
+    if (!loc) return;
 
     const newLead: PropertyLead = {
       id: generateId(),
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
+      latitude: loc.latitude,
+      longitude: loc.longitude,
       createdAt: Date.now(),
       sessionId: session?.id || null,
       ...lead,
@@ -147,6 +216,16 @@ export default function DriveScreen() {
     await createLead(newLead);
     setLeads((prev) => [newLead, ...prev]);
     setShowFlagModal(false);
+    setSelectedLocation(null);
+  };
+
+  const handleCloseModal = () => {
+    setShowFlagModal(false);
+    setSelectedLocation(null);
+  };
+
+  const handleDismissSelection = () => {
+    setSelectedLocation(null);
   };
 
   const initialRegion: Region = currentLocation
@@ -177,6 +256,7 @@ export default function DriveScreen() {
         showsUserLocation
         showsMyLocationButton={false}
         onPanDrag={() => setFollowUser(false)}
+        onPress={handleMapPress}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
         customMapStyle={darkMapStyle}
       >
@@ -197,7 +277,54 @@ export default function DriveScreen() {
             pinColor={Colors.flagRed}
           />
         ))}
+
+        {selectedLocation && !showFlagModal && (
+          <Marker
+            coordinate={{
+              latitude: selectedLocation.latitude,
+              longitude: selectedLocation.longitude,
+            }}
+            pinColor="#FFD600"
+          />
+        )}
       </MapView>
+
+      {/* Selected location info card */}
+      {selectedLocation && !showFlagModal && (
+        <View style={styles.selectedCard}>
+          <TouchableOpacity style={styles.dismissButton} onPress={handleDismissSelection}>
+            <Ionicons name="close" size={20} color={Colors.textMuted} />
+          </TouchableOpacity>
+          <View style={styles.selectedInfo}>
+            <Ionicons name="location" size={22} color="#FFD600" />
+            <View style={styles.selectedTextContainer}>
+              {isGeocoding ? (
+                <View style={styles.geocodingRow}>
+                  <ActivityIndicator size="small" color={Colors.primary} />
+                  <Text style={styles.geocodingText}>Looking up address...</Text>
+                </View>
+              ) : (
+                <>
+                  <Text style={styles.selectedAddress} numberOfLines={2}>
+                    {selectedLocation.address || 'Unknown address'}
+                  </Text>
+                  <Text style={styles.selectedCoords}>
+                    {selectedLocation.latitude.toFixed(6)}, {selectedLocation.longitude.toFixed(6)}
+                  </Text>
+                </>
+              )}
+            </View>
+          </View>
+          <TouchableOpacity
+            style={styles.flagSelectedButton}
+            onPress={handleFlagSelected}
+            disabled={isGeocoding}
+          >
+            <Ionicons name="flag" size={20} color="#fff" />
+            <Text style={styles.flagSelectedText}>Flag This Property</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Stats overlay */}
       {session?.isActive && (
@@ -225,7 +352,7 @@ export default function DriveScreen() {
 
       {/* Control buttons */}
       <View style={styles.controls}>
-        {!followUser && (
+        {!followUser && !selectedLocation && (
           <TouchableOpacity
             style={styles.recenterButton}
             onPress={() => {
@@ -247,7 +374,7 @@ export default function DriveScreen() {
           </TouchableOpacity>
         )}
 
-        {session?.isActive && (
+        {session?.isActive && !selectedLocation && (
           <TouchableOpacity
             style={styles.flagButton}
             onPress={handleFlagProperty}
@@ -257,28 +384,36 @@ export default function DriveScreen() {
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity
-          style={[
-            styles.mainButton,
-            session?.isActive ? styles.stopButton : styles.startButton,
-          ]}
-          onPress={session?.isActive ? handleStopDriving : handleStartDriving}
-        >
-          <Ionicons
-            name={session?.isActive ? 'stop-circle' : 'navigate'}
-            size={28}
-            color="#fff"
-          />
-          <Text style={styles.mainButtonText}>
-            {session?.isActive ? 'Stop Driving' : 'Start Driving'}
-          </Text>
-        </TouchableOpacity>
+        {!selectedLocation && (
+          <TouchableOpacity
+            style={[
+              styles.mainButton,
+              session?.isActive ? styles.stopButton : styles.startButton,
+            ]}
+            onPress={session?.isActive ? handleStopDriving : handleStartDriving}
+          >
+            <Ionicons
+              name={session?.isActive ? 'stop-circle' : 'navigate'}
+              size={28}
+              color="#fff"
+            />
+            <Text style={styles.mainButtonText}>
+              {session?.isActive ? 'Stop Driving' : 'Start Driving'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <FlagPropertyModal
         visible={showFlagModal}
-        onClose={() => setShowFlagModal(false)}
+        onClose={handleCloseModal}
         onSave={handleSaveLead}
+        initialAddress={selectedLocation?.address || ''}
+        initialCoords={
+          selectedLocation
+            ? { latitude: selectedLocation.latitude, longitude: selectedLocation.longitude }
+            : undefined
+        }
       />
     </View>
   );
@@ -290,6 +425,71 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
+  },
+  selectedCard: {
+    position: 'absolute',
+    bottom: 40,
+    left: 16,
+    right: 16,
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  dismissButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1,
+    padding: 4,
+  },
+  selectedInfo: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    marginBottom: 14,
+    paddingRight: 24,
+  },
+  selectedTextContainer: {
+    flex: 1,
+  },
+  selectedAddress: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.textPrimary,
+    lineHeight: 22,
+  },
+  selectedCoords: {
+    fontSize: 12,
+    color: Colors.textMuted,
+    marginTop: 4,
+  },
+  geocodingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  geocodingText: {
+    fontSize: 14,
+    color: Colors.textMuted,
+  },
+  flagSelectedButton: {
+    backgroundColor: Colors.flagRed,
+    borderRadius: 12,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  flagSelectedText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
   },
   statsOverlay: {
     position: 'absolute',
