@@ -44,19 +44,19 @@ export const Colors = {
 
 // Dark mode map style for Google Maps — buildings & structures visible
 export const darkMapStyle = [
-  { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+  { elementType: 'geometry', stylers: [{ color: '#141425' }] },
   { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#141425' }] },
   // Administrative
   { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#757575' }] },
   { featureType: 'administrative.country', elementType: 'labels.text.fill', stylers: [{ color: '#9e9e9e' }] },
   { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#bdbdbd' }] },
   { featureType: 'administrative.neighborhood', elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
-  // Buildings — visible with distinct fill and stroke
-  { featureType: 'landscape.man_made', elementType: 'geometry.fill', stylers: [{ color: '#2a2a40' }] },
-  { featureType: 'landscape.man_made', elementType: 'geometry.stroke', stylers: [{ color: '#3d3d5c' }, { weight: 1 }] },
+  // Buildings — high contrast fill and bright outlines
+  { featureType: 'landscape.man_made', elementType: 'geometry.fill', stylers: [{ color: '#2f3055' }] },
+  { featureType: 'landscape.man_made', elementType: 'geometry.stroke', stylers: [{ color: '#7070a0' }, { weight: 2.5 }] },
   // Natural landscape
-  { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+  { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#141425' }] },
   // POI — parks and businesses visible but subtle
   { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#6a6a6a' }] },
   { featureType: 'poi', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
