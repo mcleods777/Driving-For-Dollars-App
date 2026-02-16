@@ -42,25 +42,38 @@ export const Colors = {
   emptyOverlayBg: 'rgba(18, 18, 18, 0.95)',
 };
 
-// Dark mode map style for Google Maps
+// Dark mode map style for Google Maps — buildings & structures visible
 export const darkMapStyle = [
-  { elementType: 'geometry', stylers: [{ color: '#212121' }] },
-  { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
-  { elementType: 'labels.text.fill', stylers: [{ color: '#757575' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#212121' }] },
+  { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
+  // Administrative
   { featureType: 'administrative', elementType: 'geometry', stylers: [{ color: '#757575' }] },
   { featureType: 'administrative.country', elementType: 'labels.text.fill', stylers: [{ color: '#9e9e9e' }] },
   { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#bdbdbd' }] },
-  { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#757575' }] },
-  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#181818' }] },
-  { featureType: 'poi.park', elementType: 'labels.text.fill', stylers: [{ color: '#616161' }] },
-  { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: '#2c2c2c' }] },
-  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
-  { featureType: 'road.arterial', elementType: 'geometry', stylers: [{ color: '#373737' }] },
-  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#3c3c3c' }] },
-  { featureType: 'road.highway.controlled_access', elementType: 'geometry', stylers: [{ color: '#4e4e4e' }] },
-  { featureType: 'road.local', elementType: 'labels.text.fill', stylers: [{ color: '#616161' }] },
+  { featureType: 'administrative.neighborhood', elementType: 'labels.text.fill', stylers: [{ color: '#8a8a8a' }] },
+  // Buildings — visible with distinct fill and stroke
+  { featureType: 'landscape.man_made', elementType: 'geometry.fill', stylers: [{ color: '#2a2a40' }] },
+  { featureType: 'landscape.man_made', elementType: 'geometry.stroke', stylers: [{ color: '#3d3d5c' }, { weight: 1 }] },
+  // Natural landscape
+  { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+  // POI — parks and businesses visible but subtle
+  { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#6a6a6a' }] },
+  { featureType: 'poi', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#1e3a1e' }] },
+  { featureType: 'poi.park', elementType: 'labels.text.fill', stylers: [{ color: '#4a7a4a' }] },
+  { featureType: 'poi.business', elementType: 'geometry', stylers: [{ color: '#2a2a40' }] },
+  // Roads — brighter so they stand out as you drive
+  { featureType: 'road', elementType: 'geometry.fill', stylers: [{ color: '#3a3a4a' }] },
+  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3a' }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#9a9a9a' }] },
+  { featureType: 'road.arterial', elementType: 'geometry.fill', stylers: [{ color: '#444460' }] },
+  { featureType: 'road.highway', elementType: 'geometry.fill', stylers: [{ color: '#505068' }] },
+  { featureType: 'road.highway.controlled_access', elementType: 'geometry.fill', stylers: [{ color: '#5a5a72' }] },
+  { featureType: 'road.local', elementType: 'labels.text.fill', stylers: [{ color: '#707070' }] },
+  // Transit
   { featureType: 'transit', elementType: 'labels.text.fill', stylers: [{ color: '#757575' }] },
-  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#000000' }] },
+  // Water
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#0e1a2b' }] },
   { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#3d3d3d' }] },
 ];

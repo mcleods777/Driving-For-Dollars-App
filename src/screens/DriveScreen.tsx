@@ -75,8 +75,8 @@ export default function DriveScreen() {
             {
               latitude: latest.latitude,
               longitude: latest.longitude,
-              latitudeDelta: 0.003,
-              longitudeDelta: 0.003,
+              latitudeDelta: 0.002,
+              longitudeDelta: 0.002,
             },
             500
           );
@@ -232,8 +232,8 @@ export default function DriveScreen() {
     ? {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
-        latitudeDelta: 0.003,
-        longitudeDelta: 0.003,
+        latitudeDelta: 0.002,
+        longitudeDelta: 0.002,
       }
     : {
         latitude: 39.8283,
@@ -255,6 +255,7 @@ export default function DriveScreen() {
         initialRegion={initialRegion}
         showsUserLocation
         showsMyLocationButton={false}
+        showsBuildings
         onPanDrag={() => setFollowUser(false)}
         onPress={handleMapPress}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
