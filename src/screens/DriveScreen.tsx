@@ -277,8 +277,10 @@ export default function DriveScreen() {
             anchor={{ x: 0.5, y: 1 }}
           >
             <View style={styles.customMarker}>
-              <View style={styles.markerBubble}>
-                <Ionicons name="flag" size={18} color="#fff" />
+              <View style={styles.markerGlow}>
+                <View style={styles.markerBubble}>
+                  <Ionicons name="flag" size={24} color="#fff" />
+                </View>
               </View>
               <View style={styles.markerArrow} />
             </View>
@@ -294,8 +296,10 @@ export default function DriveScreen() {
             anchor={{ x: 0.5, y: 1 }}
           >
             <View style={styles.customMarker}>
-              <View style={styles.selectedMarkerBubble}>
-                <Ionicons name="location" size={18} color="#000" />
+              <View style={styles.selectedMarkerGlow}>
+                <View style={styles.selectedMarkerBubble}>
+                  <Ionicons name="location" size={24} color="#000" />
+                </View>
               </View>
               <View style={styles.selectedMarkerArrow} />
             </View>
@@ -605,56 +609,72 @@ const styles = StyleSheet.create({
   customMarker: {
     alignItems: 'center',
   },
+  markerGlow: {
+    backgroundColor: 'rgba(255, 107, 107, 0.3)',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   markerBubble: {
-    backgroundColor: Colors.flagRed,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    backgroundColor: '#FF3B30',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 6,
+    shadowColor: '#FF3B30',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 10,
   },
   markerArrow: {
     width: 0,
     height: 0,
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderTopWidth: 10,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderTopWidth: 14,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#fff',
-    marginTop: -1,
+    marginTop: -2,
+  },
+  selectedMarkerGlow: {
+    backgroundColor: 'rgba(255, 214, 0, 0.3)',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   selectedMarkerBubble: {
     backgroundColor: '#FFD600',
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 6,
+    shadowColor: '#FFD600',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 10,
   },
   selectedMarkerArrow: {
     width: 0,
     height: 0,
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderTopWidth: 10,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderTopWidth: 14,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#fff',
-    marginTop: -1,
+    marginTop: -2,
   },
 });

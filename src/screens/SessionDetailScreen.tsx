@@ -85,8 +85,10 @@ export default function SessionDetailScreen() {
             anchor={{ x: 0.5, y: 1 }}
           >
             <View style={styles.customMarker}>
-              <View style={styles.startMarkerBubble}>
-                <Ionicons name="play" size={16} color="#fff" />
+              <View style={styles.startMarkerGlow}>
+                <View style={styles.startMarkerBubble}>
+                  <Ionicons name="play" size={20} color="#fff" />
+                </View>
               </View>
               <View style={styles.startMarkerArrow} />
             </View>
@@ -100,8 +102,10 @@ export default function SessionDetailScreen() {
             anchor={{ x: 0.5, y: 1 }}
           >
             <View style={styles.customMarker}>
-              <View style={styles.endMarkerBubble}>
-                <Ionicons name="stop" size={16} color="#fff" />
+              <View style={styles.endMarkerGlow}>
+                <View style={styles.endMarkerBubble}>
+                  <Ionicons name="stop" size={20} color="#fff" />
+                </View>
               </View>
               <View style={styles.endMarkerArrow} />
             </View>
@@ -117,8 +121,10 @@ export default function SessionDetailScreen() {
             anchor={{ x: 0.5, y: 1 }}
           >
             <View style={styles.customMarker}>
-              <View style={styles.leadMarker}>
-                <Ionicons name="flag" size={18} color="#fff" />
+              <View style={styles.leadMarkerGlow}>
+                <View style={styles.leadMarker}>
+                  <Ionicons name="flag" size={24} color="#fff" />
+                </View>
               </View>
               <View style={styles.leadMarkerArrow} />
             </View>
@@ -181,71 +187,107 @@ const styles = StyleSheet.create({
   customMarker: {
     alignItems: 'center',
   },
+  startMarkerGlow: {
+    backgroundColor: 'rgba(67, 160, 71, 0.3)',
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   startMarkerBubble: {
     backgroundColor: Colors.success,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#fff',
-    elevation: 6,
+    shadowColor: Colors.success,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 6,
+    elevation: 10,
   },
   startMarkerArrow: {
     width: 0,
     height: 0,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 9,
+    borderLeftWidth: 9,
+    borderRightWidth: 9,
+    borderTopWidth: 12,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#fff',
-    marginTop: -1,
+    marginTop: -2,
+  },
+  endMarkerGlow: {
+    backgroundColor: 'rgba(229, 57, 53, 0.3)',
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   endMarkerBubble: {
     backgroundColor: Colors.danger,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#fff',
-    elevation: 6,
+    shadowColor: Colors.danger,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 6,
+    elevation: 10,
   },
   endMarkerArrow: {
     width: 0,
     height: 0,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 9,
+    borderLeftWidth: 9,
+    borderRightWidth: 9,
+    borderTopWidth: 12,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#fff',
-    marginTop: -1,
+    marginTop: -2,
+  },
+  leadMarkerGlow: {
+    backgroundColor: 'rgba(255, 59, 48, 0.3)',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   leadMarker: {
-    backgroundColor: Colors.flagRed,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    backgroundColor: '#FF3B30',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#fff',
-    elevation: 6,
+    shadowColor: '#FF3B30',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 8,
+    elevation: 10,
   },
   leadMarkerArrow: {
     width: 0,
     height: 0,
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderTopWidth: 10,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderTopWidth: 14,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopColor: '#fff',
-    marginTop: -1,
+    marginTop: -2,
   },
   detailsPanel: {
     backgroundColor: Colors.surface,
