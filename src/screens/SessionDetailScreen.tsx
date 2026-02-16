@@ -82,16 +82,30 @@ export default function SessionDetailScreen() {
           <Marker
             coordinate={startCoord}
             title="Start"
-            pinColor="green"
-          />
+            anchor={{ x: 0.5, y: 1 }}
+          >
+            <View style={styles.customMarker}>
+              <View style={styles.startMarkerBubble}>
+                <Ionicons name="play" size={16} color="#fff" />
+              </View>
+              <View style={styles.startMarkerArrow} />
+            </View>
+          </Marker>
         )}
 
         {endCoord && routeCoords.length > 1 && (
           <Marker
             coordinate={endCoord}
             title="End"
-            pinColor="red"
-          />
+            anchor={{ x: 0.5, y: 1 }}
+          >
+            <View style={styles.customMarker}>
+              <View style={styles.endMarkerBubble}>
+                <Ionicons name="stop" size={16} color="#fff" />
+              </View>
+              <View style={styles.endMarkerArrow} />
+            </View>
+          </Marker>
         )}
 
         {leads.map((lead) => (
@@ -100,9 +114,13 @@ export default function SessionDetailScreen() {
             coordinate={{ latitude: lead.latitude, longitude: lead.longitude }}
             title={lead.address || 'Flagged Property'}
             description={lead.notes || undefined}
+            anchor={{ x: 0.5, y: 1 }}
           >
-            <View style={styles.leadMarker}>
-              <Ionicons name="flag" size={20} color={Colors.flagRed} />
+            <View style={styles.customMarker}>
+              <View style={styles.leadMarker}>
+                <Ionicons name="flag" size={18} color="#fff" />
+              </View>
+              <View style={styles.leadMarkerArrow} />
             </View>
           </Marker>
         ))}
@@ -160,12 +178,74 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+  customMarker: {
+    alignItems: 'center',
+  },
+  startMarkerBubble: {
+    backgroundColor: Colors.success,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: '#fff',
+    elevation: 6,
+  },
+  startMarkerArrow: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderTopWidth: 9,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: '#fff',
+    marginTop: -1,
+  },
+  endMarkerBubble: {
+    backgroundColor: Colors.danger,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: '#fff',
+    elevation: 6,
+  },
+  endMarkerArrow: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderTopWidth: 9,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: '#fff',
+    marginTop: -1,
+  },
   leadMarker: {
-    backgroundColor: Colors.surface,
-    borderRadius: 20,
-    padding: 4,
-    borderWidth: 2,
-    borderColor: Colors.flagRed,
+    backgroundColor: Colors.flagRed,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: '#fff',
+    elevation: 6,
+  },
+  leadMarkerArrow: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 8,
+    borderRightWidth: 8,
+    borderTopWidth: 10,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopColor: '#fff',
+    marginTop: -1,
   },
   detailsPanel: {
     backgroundColor: Colors.surface,
