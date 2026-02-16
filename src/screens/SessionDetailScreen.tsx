@@ -118,15 +118,16 @@ export default function SessionDetailScreen() {
             coordinate={{ latitude: lead.latitude, longitude: lead.longitude }}
             title={lead.address || 'Flagged Property'}
             description={lead.notes || undefined}
-            anchor={{ x: 0.5, y: 1 }}
+            anchor={{ x: 0.5, y: 0.9 }}
           >
-            <View style={styles.customMarker}>
-              <View style={styles.leadMarkerGlow}>
-                <View style={styles.leadMarker}>
-                  <Ionicons name="flag" size={24} color="#fff" />
-                </View>
+            <View style={styles.houseMarker}>
+              <View style={styles.houseRoof} />
+              <View style={styles.houseBody}>
+                <Ionicons name="flag" size={22} color="#fff" />
+                <Text style={styles.houseLabel} numberOfLines={1}>
+                  {lead.address ? lead.address.split(',')[0] : 'Flagged'}
+                </Text>
               </View>
-              <View style={styles.leadMarkerArrow} />
             </View>
           </Marker>
         ))}
@@ -255,39 +256,45 @@ const styles = StyleSheet.create({
     borderTopColor: '#fff',
     marginTop: -2,
   },
-  leadMarkerGlow: {
-    backgroundColor: 'rgba(255, 59, 48, 0.3)',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  houseMarker: {
     alignItems: 'center',
-    justifyContent: 'center',
+    width: 90,
   },
-  leadMarker: {
+  houseRoof: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 45,
+    borderRightWidth: 45,
+    borderBottomWidth: 28,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#CC2200',
+    marginBottom: -1,
+  },
+  houseBody: {
     backgroundColor: '#FF3B30',
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 90,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     borderWidth: 3,
+    borderTopWidth: 0,
     borderColor: '#fff',
     shadowColor: '#FF3B30',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 10,
   },
-  leadMarkerArrow: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderTopWidth: 14,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderTopColor: '#fff',
-    marginTop: -2,
+  houseLabel: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: '800',
+    marginTop: 2,
+    textAlign: 'center',
+    letterSpacing: 0.3,
   },
   detailsPanel: {
     backgroundColor: Colors.surface,

@@ -75,8 +75,8 @@ export default function DriveScreen() {
             {
               latitude: latest.latitude,
               longitude: latest.longitude,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
+              latitudeDelta: 0.003,
+              longitudeDelta: 0.003,
             },
             500
           );
@@ -232,8 +232,8 @@ export default function DriveScreen() {
     ? {
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
+        latitudeDelta: 0.003,
+        longitudeDelta: 0.003,
       }
     : {
         latitude: 39.8283,
@@ -274,15 +274,16 @@ export default function DriveScreen() {
             coordinate={{ latitude: lead.latitude, longitude: lead.longitude }}
             title={lead.address || 'Flagged Property'}
             description={lead.notes || undefined}
-            anchor={{ x: 0.5, y: 1 }}
+            anchor={{ x: 0.5, y: 0.9 }}
           >
-            <View style={styles.customMarker}>
-              <View style={styles.markerGlow}>
-                <View style={styles.markerBubble}>
-                  <Ionicons name="flag" size={24} color="#fff" />
-                </View>
+            <View style={styles.houseMarker}>
+              <View style={styles.houseRoof} />
+              <View style={styles.houseBody}>
+                <Ionicons name="flag" size={22} color="#fff" />
+                <Text style={styles.houseLabel} numberOfLines={1}>
+                  {lead.address ? lead.address.split(',')[0] : 'Flagged'}
+                </Text>
               </View>
-              <View style={styles.markerArrow} />
             </View>
           </Marker>
         ))}
@@ -293,15 +294,16 @@ export default function DriveScreen() {
               latitude: selectedLocation.latitude,
               longitude: selectedLocation.longitude,
             }}
-            anchor={{ x: 0.5, y: 1 }}
+            anchor={{ x: 0.5, y: 0.9 }}
           >
-            <View style={styles.customMarker}>
-              <View style={styles.selectedMarkerGlow}>
-                <View style={styles.selectedMarkerBubble}>
-                  <Ionicons name="location" size={24} color="#000" />
-                </View>
+            <View style={styles.houseMarkerSelected}>
+              <View style={styles.houseRoofSelected} />
+              <View style={styles.houseBodySelected}>
+                <Ionicons name="home" size={22} color="#000" />
+                <Text style={styles.houseLabelSelected} numberOfLines={1}>
+                  {selectedLocation.address ? selectedLocation.address.split(',')[0] : 'Tap to flag'}
+                </Text>
               </View>
-              <View style={styles.selectedMarkerArrow} />
             </View>
           </Marker>
         )}
@@ -606,75 +608,84 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
-  customMarker: {
+  houseMarker: {
     alignItems: 'center',
+    width: 90,
   },
-  markerGlow: {
-    backgroundColor: 'rgba(255, 107, 107, 0.3)',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+  houseRoof: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 45,
+    borderRightWidth: 45,
+    borderBottomWidth: 28,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: '#CC2200',
+    marginBottom: -1,
   },
-  markerBubble: {
+  houseBody: {
     backgroundColor: '#FF3B30',
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 90,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     borderWidth: 3,
+    borderTopWidth: 0,
     borderColor: '#fff',
     shadowColor: '#FF3B30',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 10,
   },
-  markerArrow: {
+  houseLabel: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: '800',
+    marginTop: 2,
+    textAlign: 'center',
+    letterSpacing: 0.3,
+  },
+  houseMarkerSelected: {
+    alignItems: 'center',
+    width: 90,
+  },
+  houseRoofSelected: {
     width: 0,
     height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderTopWidth: 14,
+    borderLeftWidth: 45,
+    borderRightWidth: 45,
+    borderBottomWidth: 28,
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
-    borderTopColor: '#fff',
-    marginTop: -2,
+    borderBottomColor: '#CCB000',
+    marginBottom: -1,
   },
-  selectedMarkerGlow: {
-    backgroundColor: 'rgba(255, 214, 0, 0.3)',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  selectedMarkerBubble: {
+  houseBodySelected: {
     backgroundColor: '#FFD600',
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 90,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     borderWidth: 3,
+    borderTopWidth: 0,
     borderColor: '#fff',
     shadowColor: '#FFD600',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
     shadowRadius: 8,
     elevation: 10,
   },
-  selectedMarkerArrow: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 10,
-    borderRightWidth: 10,
-    borderTopWidth: 14,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderTopColor: '#fff',
-    marginTop: -2,
+  houseLabelSelected: {
+    color: '#000',
+    fontSize: 10,
+    fontWeight: '800',
+    marginTop: 2,
+    textAlign: 'center',
+    letterSpacing: 0.3,
   },
 });
